@@ -146,6 +146,55 @@ END $$
 
 DELIMITER ;
 
+CREATE TABLE theme(
+    id_theme int PRIMARY KEY AUTO_INCREMENT,
+    nom varchar(55),
+    description text);
+
+CREATE TABLE articles(
+    id_article int PRIMARY KEY AUTO_INCREMENT,
+    titre varchar(100),
+    contenu text,
+    date_creation datetime DEFAULT CURRENT_TIMESTAMP,
+    id_client int,
+    id_theme int,
+    FOREIGN KEY (id_client) REFERENCES utilisateurs(id_utilisateur),
+    FOREIGN KEY (id_theme) REFERENCES themes(id_theme));
+
+CREATE TABLE tags(
+    id_tags int PRIMARY KEY AUTO_INCREMENT,
+    nom varchar(55));
+
+CREATE TABLE commentaires(
+    id_commentaire int PRIMARY KEY AUTO_INCREMENT,
+    contenu text,
+    note int CHECK (note BETWEEN 1 and 5),
+    date_commentaire datetime DEFAULT CURRENT_TIMESTAMP,
+    statut boolean DEFAULT true,
+    id_article int ,
+    id_client int  ,
+	FOREIGN KEY (id_article) REFERENCES articles  (id_article),
+	FOREIGN KEY (id_client) REFERENCES utilisateurs (id_utilisateur)) ;
+
+CREATE TABLE article_favoris(
+    id_article int,
+    id_client int,
+    date_favoris datetime DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN key (id_article) REFERENCES articles (id_article),
+    FOREIGN KEY (id_client) REFERENCES utilisateurs(id_utilisateur),
+	PRIMARY KEY (id_article,id_client));
+
+CREATE TABLE article_tag(
+    id_article int,
+    id_tags int,
+    date_tag datetime DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN key (id_article) REFERENCES articles (id_article),
+    FOREIGN KEY (id_tags) REFERENCES tags(id_tags),
+	PRIMARY KEY (id_article,id_tags));
+    
+   
+    
+
 
 
 
